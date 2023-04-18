@@ -4,13 +4,13 @@ from base.net_util import Tanh, QuasiPow
 from base.exp_convergence import ExpConvergence
 from base.util import humanreadible_runtime
 
-p = 2
+p = 7
 if p == 2:
     expname = 'xor_hidden'
 inputs, labels = parity_minus(p)
 expname = 'parity{}_hidden'.format(p)
 
-hidden_size = [2]
+hidden_size = [150,170,200]
 exp_params = {
     "repetitions": 100,
     "net_hyperparams": {
@@ -20,7 +20,7 @@ exp_params = {
         "weight_mean": 0.0,
         "weight_variance": 1.0
     },
-    "max_epoch":1000,
+    "max_epoch":5000,
     "success_window": 10,
 }
 
@@ -35,7 +35,7 @@ for h in hidden_size:
     print(results_converge)
     print(results_epochs)
     print("Total runtime",humanreadible_runtime(sum(results_runtime)))
-    print("Total runtime milis",(sum(results_runtime)))
+    print("Nets converged",sum(results_converge))
     plot_expnet_nets.append("{} {}\n".format(h, sum(results_converge)))
     plot_expnet_epcs.append("{} {} {}\n".format(h, mean(results_epochs), stdev(results_epochs)))
 
