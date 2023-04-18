@@ -2,6 +2,7 @@ from statistics import mean, stdev
 from base.data_util import parity_minus
 from base.net_util import Tanh, QuasiPow
 from base.exp_convergence import ExpConvergence
+from base.util import humanreadible_runtime
 
 p = 2
 if p == 2:
@@ -11,7 +12,7 @@ expname = 'parity{}_hidden'.format(p)
 
 hidden_size = [2]
 exp_params = {
-    "repetitions": 10,
+    "repetitions": 100,
     "net_hyperparams": {
     # "activation_functions": [Tanh(), QuasiPow()],
     "activation_functions": [Tanh(), Tanh()],
@@ -19,7 +20,7 @@ exp_params = {
         "weight_mean": 0.0,
         "weight_variance": 1.0
     },
-    "max_epoch":5000,
+    "max_epoch":1000,
     "success_window": 10,
 }
 
@@ -30,10 +31,11 @@ for h in hidden_size:
     print("Testing hidden size: {}".format(h))
     exp_params["net_hyperparams"]["layers"] = [p, h, 1]
     exp_runner = ExpConvergence(exp_params)
-    results_converge,results_epochs,results_runtime = exp_runner.convergence(inputs, labels,True)
+    results_converge,results_epochs,results_runtime = exp_runner.convergence(inputs, labels,False)
     print(results_converge)
     print(results_epochs)
-    print(results_runtime)
+    print("Total runtime",humanreadible_runtime(sum(results_runtime)))
+    print("Total runtime milis",(sum(results_runtime)))
     plot_expnet_nets.append("{} {}\n".format(h, sum(results_converge)))
     plot_expnet_epcs.append("{} {} {}\n".format(h, mean(results_epochs), stdev(results_epochs)))
 

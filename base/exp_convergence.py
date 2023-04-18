@@ -49,6 +49,7 @@ class ExpConvergence:
                         good_outputs += 1
                 success.append(good_outputs/len(inputs))
                 epoch += 1
+                runtime["end"] = time.time()
             runtime_total = runtime["end"] - runtime["start"]
             converged = (sum(success[-self.success_window:]) == self.success_window)
             results_converge.append(int(converged))
