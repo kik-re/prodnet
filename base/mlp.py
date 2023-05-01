@@ -72,11 +72,11 @@ class MLP:
                 w_change_new[k][j] = common_term_j_k * (act[i][j] - 1) * quasi_exp * (1 - quasi_exp)
                 tmp += common_term_j_k * quasi_exp
             error_new[j] = tmp
-        return error_new,w_change_new
+        return error_new, w_change_new
 
     def delta(self, act, i, error):
         delta = error * self.activation_functions[i].apply_derived(act[i + 1])
         biased_act = np.vstack([act[i], np.ones(len(act[i][0]))])
         w_change_new = np.dot(biased_act, delta.transpose()).transpose()
-        error_new = np.dot(self.W[i][:, :self.layers[1]].transpose(), delta)
-        return error_new,w_change_new
+        error_new = np.dot(self.W[i][:, :self.layers[i]].transpose(), delta)
+        return error_new, w_change_new

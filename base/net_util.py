@@ -88,3 +88,14 @@ class QuasiPow:
 
     def apply_derived(self, x):
         return
+
+
+class SquareError:
+    def __init__(self):
+        pass
+
+    def __repr__(self):
+        return "MSE"
+
+    def apply_func(self, desired, estimate):
+        return ((desired - estimate) ** 2)
